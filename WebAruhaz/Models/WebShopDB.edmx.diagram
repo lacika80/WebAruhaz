@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="84f8e869093149cdb4982e1a013ce11c" Name="Diagram1">
+        <EntityTypeShape EntityType="WebShopModel.Category" Width="1.5" PointX="7.875" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebShopModel.Category2Product" Width="1.5" PointX="7.625" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebShopModel.Photo" Width="1.5" PointX="2.125" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebShopModel.Product2Photo" Width="1.5" PointX="2.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebShopModel.Product" Width="1.5" PointX="5.125" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebShopModel.user" Width="1.5" PointX="10.625" PointY="1.25" IsExpanded="true" />
+        <AssociationConnector Association="WebShopModel.fk_C2P_PhotoID" ManuallyRouted="false" />
+        <AssociationConnector Association="WebShopModel.fk_C2P_ProdID" ManuallyRouted="false" />
+        <AssociationConnector Association="WebShopModel.fk_p2p_PhotoID" ManuallyRouted="false" />
+        <AssociationConnector Association="WebShopModel.fk_p2p_ProdID" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="WebShopModel.ProductWithphoto" Width="1.875" PointX="6.875" PointY="6" />
+        <EntityTypeShape EntityType="WebShopModel.ProductWithCategory" Width="2" PointX="4.375" PointY="5.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

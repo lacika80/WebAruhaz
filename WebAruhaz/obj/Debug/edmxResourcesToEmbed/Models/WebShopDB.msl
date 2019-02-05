@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="WebShopModelStoreContainer" CdmEntityContainer="WebShopContext">
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="WebShopModel.Category">
+        <MappingFragment StoreEntitySet="Categories">
+          <ScalarProperty Name="CatBoss" ColumnName="CatBoss" />
+          <ScalarProperty Name="CatID" ColumnName="CatID" />
+          <ScalarProperty Name="CatName" ColumnName="CatName" />
+          <ScalarProperty Name="CatPath" ColumnName="CatPath" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Category2Product">
+      <EntityTypeMapping TypeName="WebShopModel.Category2Product">
+        <MappingFragment StoreEntitySet="Category2Product">
+          <ScalarProperty Name="C2PID" ColumnName="C2PID" />
+          <ScalarProperty Name="ProdID" ColumnName="ProdID" />
+          <ScalarProperty Name="CatID" ColumnName="CatID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Photos">
+      <EntityTypeMapping TypeName="WebShopModel.Photo">
+        <MappingFragment StoreEntitySet="Photos">
+          <ScalarProperty Name="ImagePath2" ColumnName="ImagePath2" />
+          <ScalarProperty Name="PhotoID" ColumnName="PhotoID" />
+          <ScalarProperty Name="URLCode" ColumnName="URLCode" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="IsActivePhoto" ColumnName="IsActivePhoto" />
+          <ScalarProperty Name="PhotoType" ColumnName="PhotoType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Product2Photo">
+      <EntityTypeMapping TypeName="WebShopModel.Product2Photo">
+        <MappingFragment StoreEntitySet="Product2Photo">
+          <ScalarProperty Name="P2PID" ColumnName="P2PID" />
+          <ScalarProperty Name="ProdID" ColumnName="ProdID" />
+          <ScalarProperty Name="PhotoID" ColumnName="PhotoID" />
+          <ScalarProperty Name="IsActiveP2P" ColumnName="IsActiveP2P" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="WebShopModel.Product">
+        <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="ProdID" ColumnName="ProdID" />
+          <ScalarProperty Name="IsActiveProduct" ColumnName="IsActiveProduct" />
+          <ScalarProperty Name="ProdName" ColumnName="ProdName" />
+          <ScalarProperty Name="ProdDescription" ColumnName="ProdDescription" />
+          <ScalarProperty Name="NetPrice" ColumnName="NetPrice" />
+          <ScalarProperty Name="VAT" ColumnName="VAT" />
+          <ScalarProperty Name="BrutPrice" ColumnName="BrutPrice" />
+          <ScalarProperty Name="ProdSeen" ColumnName="ProdSeen" />
+          <ScalarProperty Name="ProdCreated" ColumnName="ProdCreated" />
+          <ScalarProperty Name="ProdPriceChanged" ColumnName="ProdPriceChanged" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="WebShopModel.user">
+        <MappingFragment StoreEntitySet="users">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductWithphotos">
+      <EntityTypeMapping TypeName="WebShopModel.ProductWithphoto">
+        <MappingFragment StoreEntitySet="ProductWithphotos">
+          <ScalarProperty Name="ProdID" ColumnName="ProdID" />
+          <ScalarProperty Name="ImagePath2" ColumnName="ImagePath2" />
+          <ScalarProperty Name="PhotoID" ColumnName="PhotoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="FromProdutsToCategories" FunctionName="WebShopModel.Store.FromProdutsToCategories" />
+    <FunctionImportMapping FunctionImportName="FromProdutsToPhotos" FunctionName="WebShopModel.Store.FromProdutsToPhotos" />
+    <EntitySetMapping Name="ProductWithCategories">
+      <EntityTypeMapping TypeName="WebShopModel.ProductWithCategory">
+        <MappingFragment StoreEntitySet="ProductWithCategories">
+          <ScalarProperty Name="CatBoss" ColumnName="CatBoss" />
+          <ScalarProperty Name="CatPath" ColumnName="CatPath" />
+          <ScalarProperty Name="CatName" ColumnName="CatName" />
+          <ScalarProperty Name="CatID" ColumnName="CatID" />
+          <ScalarProperty Name="ProdID" ColumnName="ProdID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="WebAruhaz.Models.DB.Item">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="WebAruhaz.Models.DB.Item.Catenum" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Models\DB\Item.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAAAAAAEAAAAAQAAAAAgAAAAAAAQACAAAA=</HashCode>
+      <FileName>Models\DB\Item.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAruhaz.Models.DB.Item_Cat_Connector">
+    <Position X="3" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAACEAAAAAAAAAAAAAAAACEE=</HashCode>
+      <FileName>Models\DB\Item_Cat_Connector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAruhaz.Models.DB.Category">
+    <Position X="5.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Models\DB\Category.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

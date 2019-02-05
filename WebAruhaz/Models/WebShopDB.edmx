@@ -1,0 +1,490 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="WebShopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6005: The data type 'hierarchyid' is currently not supported for the target Entity Framework version; the column 'CatHID' in the table 'WebShop.dbo.Categories' was excluded.-->
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="CatID" />
+          </Key>
+          <Property Name="CatID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CatName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CatPath" Type="nvarchar" MaxLength="4000" StoreGeneratedPattern="Computed" />
+          <Property Name="CatBoss" Type="int" />
+        </EntityType>
+        <EntityType Name="Category2Product">
+          <Key>
+            <PropertyRef Name="C2PID" />
+          </Key>
+          <Property Name="C2PID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProdID" Type="int" Nullable="false" />
+          <Property Name="CatID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6005: The data type 'hierarchyid' is currently not supported for the target Entity Framework version; the column 'ImagePath' in the table 'WebShop.dbo.Photos' was excluded.-->
+        <EntityType Name="Photos">
+          <Key>
+            <PropertyRef Name="PhotoID" />
+          </Key>
+          <Property Name="PhotoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="URLCode" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Image" Type="varbinary(max)" />
+          <Property Name="IsActivePhoto" Type="bit" Nullable="false" />
+          <Property Name="PhotoType" Type="bit" Nullable="false" />
+          <Property Name="ImagePath2" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Product2Photo">
+          <Key>
+            <PropertyRef Name="P2PID" />
+          </Key>
+          <Property Name="P2PID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProdID" Type="int" Nullable="false" />
+          <Property Name="PhotoID" Type="int" Nullable="false" />
+          <Property Name="IsActiveP2P" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ProdID" />
+          </Key>
+          <Property Name="ProdID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsActiveProduct" Type="bit" Nullable="false" />
+          <Property Name="ProdName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProdDescription" Type="varchar(max)" />
+          <Property Name="NetPrice" Type="money" Nullable="false" />
+          <Property Name="VAT" Type="decimal" Precision="4" Scale="3" Nullable="false" />
+          <Property Name="BrutPrice" Type="decimal" Precision="25" Scale="7" StoreGeneratedPattern="Computed" />
+          <Property Name="ProdSeen" Type="bigint" Nullable="false" />
+          <Property Name="ProdCreated" Type="date" Nullable="false" />
+          <Property Name="ProdPriceChanged" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="UserPassword" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6005: The data type 'hierarchyid' is currently not supported for the target Entity Framework version; the column 'CatHID' in the table 'WebShop.dbo.ProductWithCategories' was excluded.
+warning 6002: The table/view 'WebShop.dbo.ProductWithCategories' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ProductWithCategories">
+          <Key>
+            <PropertyRef Name="ProdID" />
+            <PropertyRef Name="CatID" />
+            <PropertyRef Name="CatName" />
+          </Key>
+          <Property Name="ProdID" Type="int" Nullable="false" />
+          <Property Name="CatID" Type="int" Nullable="false" />
+          <Property Name="CatName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CatPath" Type="nvarchar" MaxLength="4000" />
+          <Property Name="CatBoss" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'WebShop.dbo.ProductWithphotos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ProductWithphotos">
+          <Key>
+            <PropertyRef Name="PhotoID" />
+            <PropertyRef Name="ProdID" />
+          </Key>
+          <Property Name="PhotoID" Type="int" Nullable="false" />
+          <Property Name="ImagePath2" Type="nvarchar" MaxLength="100" />
+          <Property Name="ProdID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_C2P_PhotoID">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Category2Product" Type="Self.Category2Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CatID" />
+            </Principal>
+            <Dependent Role="Category2Product">
+              <PropertyRef Name="CatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_C2P_ProdID">
+          <End Role="Products" Type="Self.Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Category2Product" Type="Self.Category2Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProdID" />
+            </Principal>
+            <Dependent Role="Category2Product">
+              <PropertyRef Name="ProdID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_p2p_PhotoID">
+          <End Role="Photos" Type="Self.Photos" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Product2Photo" Type="Self.Product2Photo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Photos">
+              <PropertyRef Name="PhotoID" />
+            </Principal>
+            <Dependent Role="Product2Photo">
+              <PropertyRef Name="PhotoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_p2p_ProdID">
+          <End Role="Products" Type="Self.Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Product2Photo" Type="Self.Product2Photo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProdID" />
+            </Principal>
+            <Dependent Role="Product2Photo">
+              <PropertyRef Name="ProdID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="FromProdutsToCategories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="FromProdutsToPhotos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="WebShopModelStoreContainer">
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category2Product" EntityType="Self.Category2Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Photos" EntityType="Self.Photos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product2Photo" EntityType="Self.Product2Photo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductWithCategories" EntityType="Self.ProductWithCategories" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ProductWithCategories].[ProdID] AS [ProdID], 
+    [ProductWithCategories].[CatID] AS [CatID], 
+    [ProductWithCategories].[CatName] AS [CatName], 
+    [ProductWithCategories].[CatPath] AS [CatPath], 
+    [ProductWithCategories].[CatBoss] AS [CatBoss]
+    FROM [dbo].[ProductWithCategories] AS [ProductWithCategories]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ProductWithphotos" EntityType="Self.ProductWithphotos" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ProductWithphotos].[PhotoID] AS [PhotoID], 
+    [ProductWithphotos].[ImagePath2] AS [ImagePath2], 
+    [ProductWithphotos].[ProdID] AS [ProdID]
+    FROM [dbo].[ProductWithphotos] AS [ProductWithphotos]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="fk_C2P_PhotoID" Association="Self.fk_C2P_PhotoID">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Category2Product" EntitySet="Category2Product" />
+          </AssociationSet>
+          <AssociationSet Name="fk_C2P_ProdID" Association="Self.fk_C2P_ProdID">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Category2Product" EntitySet="Category2Product" />
+          </AssociationSet>
+          <AssociationSet Name="fk_p2p_PhotoID" Association="Self.fk_p2p_PhotoID">
+            <End Role="Photos" EntitySet="Photos" />
+            <End Role="Product2Photo" EntitySet="Product2Photo" />
+          </AssociationSet>
+          <AssociationSet Name="fk_p2p_ProdID" Association="Self.fk_p2p_ProdID">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Product2Photo" EntitySet="Product2Photo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WebShopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CatID" />
+          </Key>
+          <Property Name="CatID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CatName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CatPath" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Category2Product" Relationship="Self.fk_C2P_PhotoID" FromRole="Categories" ToRole="Category2Product" />
+          <Property Name="CatBoss" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Category2Product">
+          <Key>
+            <PropertyRef Name="C2PID" />
+          </Key>
+          <Property Name="C2PID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProdID" Type="Int32" Nullable="false" />
+          <Property Name="CatID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.fk_C2P_PhotoID" FromRole="Category2Product" ToRole="Categories" />
+          <NavigationProperty Name="Product" Relationship="Self.fk_C2P_ProdID" FromRole="Category2Product" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Photo">
+          <Key>
+            <PropertyRef Name="PhotoID" />
+          </Key>
+          <Property Name="PhotoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="URLCode" Type="Guid" Nullable="false" />
+          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="IsActivePhoto" Type="Boolean" Nullable="false" />
+          <Property Name="PhotoType" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Product2Photo" Relationship="Self.fk_p2p_PhotoID" FromRole="Photos" ToRole="Product2Photo" />
+          <Property Name="ImagePath2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Product2Photo">
+          <Key>
+            <PropertyRef Name="P2PID" />
+          </Key>
+          <Property Name="P2PID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProdID" Type="Int32" Nullable="false" />
+          <Property Name="PhotoID" Type="Int32" Nullable="false" />
+          <Property Name="IsActiveP2P" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Photo" Relationship="Self.fk_p2p_PhotoID" FromRole="Product2Photo" ToRole="Photos" />
+          <NavigationProperty Name="Product" Relationship="Self.fk_p2p_ProdID" FromRole="Product2Photo" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProdID" />
+          </Key>
+          <Property Name="ProdID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsActiveProduct" Type="Boolean" Nullable="false" />
+          <Property Name="ProdName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProdDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="NetPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="VAT" Type="Decimal" Precision="4" Scale="3" Nullable="false" />
+          <Property Name="BrutPrice" Type="Decimal" Precision="25" Scale="7" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="ProdSeen" Type="Int64" Nullable="false" />
+          <Property Name="ProdCreated" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ProdPriceChanged" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Category2Product" Relationship="Self.fk_C2P_ProdID" FromRole="Products" ToRole="Category2Product" />
+          <NavigationProperty Name="Product2Photo" Relationship="Self.fk_p2p_ProdID" FromRole="Products" ToRole="Product2Photo" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserPassword" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_C2P_PhotoID">
+          <End Role="Categories" Type="Self.Category" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Category2Product" Type="Self.Category2Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CatID" />
+            </Principal>
+            <Dependent Role="Category2Product">
+              <PropertyRef Name="CatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_C2P_ProdID">
+          <End Role="Products" Type="Self.Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Category2Product" Type="Self.Category2Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProdID" />
+            </Principal>
+            <Dependent Role="Category2Product">
+              <PropertyRef Name="ProdID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_p2p_PhotoID">
+          <End Role="Photos" Type="Self.Photo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Product2Photo" Type="Self.Product2Photo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Photos">
+              <PropertyRef Name="PhotoID" />
+            </Principal>
+            <Dependent Role="Product2Photo">
+              <PropertyRef Name="PhotoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_p2p_ProdID">
+          <End Role="Products" Type="Self.Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Product2Photo" Type="Self.Product2Photo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProdID" />
+            </Principal>
+            <Dependent Role="Product2Photo">
+              <PropertyRef Name="ProdID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WebShopContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Category2Product" EntityType="Self.Category2Product" />
+          <EntitySet Name="Photos" EntityType="Self.Photo" />
+          <EntitySet Name="Product2Photo" EntityType="Self.Product2Photo" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="fk_C2P_PhotoID" Association="Self.fk_C2P_PhotoID">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Category2Product" EntitySet="Category2Product" />
+          </AssociationSet>
+          <AssociationSet Name="fk_C2P_ProdID" Association="Self.fk_C2P_ProdID">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Category2Product" EntitySet="Category2Product" />
+          </AssociationSet>
+          <AssociationSet Name="fk_p2p_PhotoID" Association="Self.fk_p2p_PhotoID">
+            <End Role="Photos" EntitySet="Photos" />
+            <End Role="Product2Photo" EntitySet="Product2Photo" />
+          </AssociationSet>
+          <AssociationSet Name="fk_p2p_ProdID" Association="Self.fk_p2p_ProdID">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Product2Photo" EntitySet="Product2Photo" />
+          </AssociationSet>
+          <EntitySet Name="ProductWithphotos" EntityType="WebShopModel.ProductWithphoto" />
+          <FunctionImport Name="FromProdutsToCategories" />
+          <FunctionImport Name="FromProdutsToPhotos" />
+          <EntitySet Name="ProductWithCategories" EntityType="WebShopModel.ProductWithCategory" />
+        </EntityContainer>
+        <EntityType Name="ProductWithphoto">
+          <Key>
+            <PropertyRef Name="PhotoID" />
+            <PropertyRef Name="ProdID" />
+          </Key>
+          <Property Name="PhotoID" Type="Int32" Nullable="false" />
+          <Property Name="ImagePath2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProdID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductWithCategory">
+          <Key>
+            <PropertyRef Name="ProdID" />
+            <PropertyRef Name="CatID" />
+            <PropertyRef Name="CatName" />
+          </Key>
+          <Property Name="ProdID" Type="Int32" Nullable="false" />
+          <Property Name="CatID" Type="Int32" Nullable="false" />
+          <Property Name="CatName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CatPath" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="CatBoss" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WebShopModelStoreContainer" CdmEntityContainer="WebShopContext">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="WebShopModel.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="CatBoss" ColumnName="CatBoss" />
+                <ScalarProperty Name="CatID" ColumnName="CatID" />
+                <ScalarProperty Name="CatName" ColumnName="CatName" />
+                <ScalarProperty Name="CatPath" ColumnName="CatPath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Category2Product">
+            <EntityTypeMapping TypeName="WebShopModel.Category2Product">
+              <MappingFragment StoreEntitySet="Category2Product">
+                <ScalarProperty Name="C2PID" ColumnName="C2PID" />
+                <ScalarProperty Name="ProdID" ColumnName="ProdID" />
+                <ScalarProperty Name="CatID" ColumnName="CatID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Photos">
+            <EntityTypeMapping TypeName="WebShopModel.Photo">
+              <MappingFragment StoreEntitySet="Photos">
+                <ScalarProperty Name="ImagePath2" ColumnName="ImagePath2" />
+                <ScalarProperty Name="PhotoID" ColumnName="PhotoID" />
+                <ScalarProperty Name="URLCode" ColumnName="URLCode" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="IsActivePhoto" ColumnName="IsActivePhoto" />
+                <ScalarProperty Name="PhotoType" ColumnName="PhotoType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product2Photo">
+            <EntityTypeMapping TypeName="WebShopModel.Product2Photo">
+              <MappingFragment StoreEntitySet="Product2Photo">
+                <ScalarProperty Name="P2PID" ColumnName="P2PID" />
+                <ScalarProperty Name="ProdID" ColumnName="ProdID" />
+                <ScalarProperty Name="PhotoID" ColumnName="PhotoID" />
+                <ScalarProperty Name="IsActiveP2P" ColumnName="IsActiveP2P" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="WebShopModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="ProdID" ColumnName="ProdID" />
+                <ScalarProperty Name="IsActiveProduct" ColumnName="IsActiveProduct" />
+                <ScalarProperty Name="ProdName" ColumnName="ProdName" />
+                <ScalarProperty Name="ProdDescription" ColumnName="ProdDescription" />
+                <ScalarProperty Name="NetPrice" ColumnName="NetPrice" />
+                <ScalarProperty Name="VAT" ColumnName="VAT" />
+                <ScalarProperty Name="BrutPrice" ColumnName="BrutPrice" />
+                <ScalarProperty Name="ProdSeen" ColumnName="ProdSeen" />
+                <ScalarProperty Name="ProdCreated" ColumnName="ProdCreated" />
+                <ScalarProperty Name="ProdPriceChanged" ColumnName="ProdPriceChanged" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="WebShopModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductWithphotos">
+            <EntityTypeMapping TypeName="WebShopModel.ProductWithphoto">
+              <MappingFragment StoreEntitySet="ProductWithphotos">
+                <ScalarProperty Name="ProdID" ColumnName="ProdID" />
+                <ScalarProperty Name="ImagePath2" ColumnName="ImagePath2" />
+                <ScalarProperty Name="PhotoID" ColumnName="PhotoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="FromProdutsToCategories" FunctionName="WebShopModel.Store.FromProdutsToCategories" />
+          <FunctionImportMapping FunctionImportName="FromProdutsToPhotos" FunctionName="WebShopModel.Store.FromProdutsToPhotos" />
+          <EntitySetMapping Name="ProductWithCategories">
+            <EntityTypeMapping TypeName="WebShopModel.ProductWithCategory">
+              <MappingFragment StoreEntitySet="ProductWithCategories">
+                <ScalarProperty Name="CatBoss" ColumnName="CatBoss" />
+                <ScalarProperty Name="CatPath" ColumnName="CatPath" />
+                <ScalarProperty Name="CatName" ColumnName="CatName" />
+                <ScalarProperty Name="CatID" ColumnName="CatID" />
+                <ScalarProperty Name="ProdID" ColumnName="ProdID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

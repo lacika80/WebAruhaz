@@ -1,0 +1,25 @@
+﻿@model WebAruhaz.Models.ProductPictureCategory
+
+@{
+    ViewBag.Title = "Item "+Model.Products.First().ProdName;
+}
+<link href="~/Content/Item.css" rel="stylesheet" type="text/css" />
+
+<h2>Item</h2>
+
+<div class="width-80pc rounded" style="background-color:azure; min-height: 800px">
+    <div class="d-lg-inline float-lg-left text-center img-thumbnail" style="width:68%">
+        <img class="rounded img-thumbnail" style="height:400px" src="@Model.ProductWithphotos.First().ImagePath2" />
+        <div class="">
+            @foreach(var item in Model.ProductWithphotos)
+            {
+                <img class="d-inline img-thumbnail" style="width:10%" src="@item.ImagePath2"/>
+            }
+        </div>
+    </div>
+    <div class="d-lg-inline float-lg-right text-center img-thumbnail" style="width:30%">asd</div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WebShopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6005: The data type 'hierarchyid' is currently not supported for the target Entity Framework version; the column 'CatHID' in the table 'WebShop.dbo.Categories' was excluded.-->
+  <EntityType Name="Categories">
+    <Key>
+      <PropertyRef Name="CatID" />
+    </Key>
+    <Property Name="CatID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CatName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CatPath" Type="nvarchar" MaxLength="4000" StoreGeneratedPattern="Computed" />
+    <Property Name="CatBoss" Type="int" />
+  </EntityType>
+  <EntityType Name="Category2Product">
+    <Key>
+      <PropertyRef Name="C2PID" />
+    </Key>
+    <Property Name="C2PID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProdID" Type="int" Nullable="false" />
+    <Property Name="CatID" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6005: The data type 'hierarchyid' is currently not supported for the target Entity Framework version; the column 'ImagePath' in the table 'WebShop.dbo.Photos' was excluded.-->
+  <EntityType Name="Photos">
+    <Key>
+      <PropertyRef Name="PhotoID" />
+    </Key>
+    <Property Name="PhotoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="URLCode" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Image" Type="varbinary(max)" />
+    <Property Name="IsActivePhoto" Type="bit" Nullable="false" />
+    <Property Name="PhotoType" Type="bit" Nullable="false" />
+    <Property Name="ImagePath2" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Product2Photo">
+    <Key>
+      <PropertyRef Name="P2PID" />
+    </Key>
+    <Property Name="P2PID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProdID" Type="int" Nullable="false" />
+    <Property Name="PhotoID" Type="int" Nullable="false" />
+    <Property Name="IsActiveP2P" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="ProdID" />
+    </Key>
+    <Property Name="ProdID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IsActiveProduct" Type="bit" Nullable="false" />
+    <Property Name="ProdName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ProdDescription" Type="varchar(max)" />
+    <Property Name="NetPrice" Type="money" Nullable="false" />
+    <Property Name="VAT" Type="decimal" Precision="4" Scale="3" Nullable="false" />
+    <Property Name="BrutPrice" Type="decimal" Precision="25" Scale="7" StoreGeneratedPattern="Computed" />
+    <Property Name="ProdSeen" Type="bigint" Nullable="false" />
+    <Property Name="ProdCreated" Type="date" Nullable="false" />
+    <Property Name="ProdPriceChanged" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="UserPassword" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6005: The data type 'hierarchyid' is currently not supported for the target Entity Framework version; the column 'CatHID' in the table 'WebShop.dbo.ProductWithCategories' was excluded.
+warning 6002: The table/view 'WebShop.dbo.ProductWithCategories' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="ProductWithCategories">
+    <Key>
+      <PropertyRef Name="ProdID" />
+      <PropertyRef Name="CatID" />
+      <PropertyRef Name="CatName" />
+    </Key>
+    <Property Name="ProdID" Type="int" Nullable="false" />
+    <Property Name="CatID" Type="int" Nullable="false" />
+    <Property Name="CatName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CatPath" Type="nvarchar" MaxLength="4000" />
+    <Property Name="CatBoss" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WebShop.dbo.ProductWithphotos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="ProductWithphotos">
+    <Key>
+      <PropertyRef Name="PhotoID" />
+      <PropertyRef Name="ProdID" />
+    </Key>
+    <Property Name="PhotoID" Type="int" Nullable="false" />
+    <Property Name="ImagePath2" Type="nvarchar" MaxLength="100" />
+    <Property Name="ProdID" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="fk_C2P_PhotoID">
+    <End Role="Categories" Type="Self.Categories" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Category2Product" Type="Self.Category2Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="CatID" />
+      </Principal>
+      <Dependent Role="Category2Product">
+        <PropertyRef Name="CatID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_C2P_ProdID">
+    <End Role="Products" Type="Self.Products" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Category2Product" Type="Self.Category2Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProdID" />
+      </Principal>
+      <Dependent Role="Category2Product">
+        <PropertyRef Name="ProdID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_p2p_PhotoID">
+    <End Role="Photos" Type="Self.Photos" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Product2Photo" Type="Self.Product2Photo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Photos">
+        <PropertyRef Name="PhotoID" />
+      </Principal>
+      <Dependent Role="Product2Photo">
+        <PropertyRef Name="PhotoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_p2p_ProdID">
+    <End Role="Products" Type="Self.Products" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Product2Photo" Type="Self.Product2Photo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProdID" />
+      </Principal>
+      <Dependent Role="Product2Photo">
+        <PropertyRef Name="ProdID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="FromProdutsToCategories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="FromProdutsToPhotos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="WebShopModelStoreContainer">
+    <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Category2Product" EntityType="Self.Category2Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Photos" EntityType="Self.Photos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product2Photo" EntityType="Self.Product2Photo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductWithCategories" EntityType="Self.ProductWithCategories" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ProductWithCategories].[ProdID] AS [ProdID], 
+    [ProductWithCategories].[CatID] AS [CatID], 
+    [ProductWithCategories].[CatName] AS [CatName], 
+    [ProductWithCategories].[CatPath] AS [CatPath], 
+    [ProductWithCategories].[CatBoss] AS [CatBoss]
+    FROM [dbo].[ProductWithCategories] AS [ProductWithCategories]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="ProductWithphotos" EntityType="Self.ProductWithphotos" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ProductWithphotos].[PhotoID] AS [PhotoID], 
+    [ProductWithphotos].[ImagePath2] AS [ImagePath2], 
+    [ProductWithphotos].[ProdID] AS [ProdID]
+    FROM [dbo].[ProductWithphotos] AS [ProductWithphotos]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="fk_C2P_PhotoID" Association="Self.fk_C2P_PhotoID">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Category2Product" EntitySet="Category2Product" />
+    </AssociationSet>
+    <AssociationSet Name="fk_C2P_ProdID" Association="Self.fk_C2P_ProdID">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Category2Product" EntitySet="Category2Product" />
+    </AssociationSet>
+    <AssociationSet Name="fk_p2p_PhotoID" Association="Self.fk_p2p_PhotoID">
+      <End Role="Photos" EntitySet="Photos" />
+      <End Role="Product2Photo" EntitySet="Product2Photo" />
+    </AssociationSet>
+    <AssociationSet Name="fk_p2p_ProdID" Association="Self.fk_p2p_ProdID">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Product2Photo" EntitySet="Product2Photo" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
